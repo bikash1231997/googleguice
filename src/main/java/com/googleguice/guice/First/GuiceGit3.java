@@ -10,12 +10,19 @@ import com.google.inject.BindingAnnotation;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.name.Named;
+import com.google.inject.name.Names;
 
-@BindingAnnotation
+/*
+ * BINDING ANNOATAION ON COMMENTS
+ * NAME BINDING 
+ */
+
+/*@BindingAnnotation
 @Target({ ElementType.FIELD, ElementType.PARAMETER, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @interface demobinding {
-}
+}*/
 
 public class GuiceGit3 {
 	public static void main(String[] args) {
@@ -28,15 +35,26 @@ public class GuiceGit3 {
 class DemoInjector extends AbstractModule {
 	@Override
 	protected void configure() {
-		bind(DemoInit.class).annotatedWith(demobinding.class).to(DemocheckImpl.class);
+		/*
+		 * bind(DemoInit.class).annotatedWith(demobinding.class).to(DemocheckImpl.class)
+		 * ;
+		 */
+		// bind(DemoInit.class).toProvider((DemocheckImpl.class);
+
+		bind(DemoInit.class).annotatedWith(Names.named("demobinding")).to(DemocheckImpl.class);
 	}
 }
 
 class DemoImpl {
 	private DemoInit demoinit;
 
-	@Inject
+	/*@Inject
 	public DemoImpl(@demobinding DemoInit demoinit) {
+		this.demoinit = demoinit;
+	}*/
+
+	@Inject
+	public DemoImpl(@Named("demobinding") DemoInit demoinit) {
 		this.demoinit = demoinit;
 	}
 
